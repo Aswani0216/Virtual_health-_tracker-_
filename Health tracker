@@ -9,6 +9,32 @@ health_data = []
 @app.route('/log_data', methods=['POST'])
 def log_data():
     data = request.json
+
+    health_data.append({
+        "timestamp": datetime.now().isoformat(),
+        "user_id": data.get("user_id"),
+        "metric": data.get("metric"),
+        "value": data.get("value")
+    })
+    return jsonify({"message": "Data logged successfully"}), 201
+
+@app.route('/get_data/<user_id>', methods=['GET'])
+def get_data(user_id):
+    user_records = [item for item in health_data if item["user_id"] == user_id]
+    return jsonify(user_records), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)from flask import Flask, request, jsonify
+from datetime import datetime
+
+app = Flask(__name__)
+
+
+health_data = []
+
+@app.route('/log_data', methods=['POST'])
+def log_data():
+    data = request.json
     # Validate and store data in a database
     health_data.append({
         "timestamp": datetime.now().isoformat(),
