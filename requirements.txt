@@ -1,0 +1,5 @@
+Flask
+mango db
+Apple Healthkit API
+fitbit API
+Google fit API
